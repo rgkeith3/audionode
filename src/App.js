@@ -3,23 +3,26 @@ import ReactFlow, { addEdge, ReactFlowProvider, removeElements, Controls, isEdge
 import OscillatorFlowNode from "./flow_nodes/OscillatorFlowNode"
 import OutputFlowNode from "./flow_nodes/OutputFlowNode"
 import ConstantFlowNode from "./flow_nodes/ConstantFlowNode"
+import GainFlowNode from "./flow_nodes/GainFlowNode"
 import OscillatorAudioNode from "./audio_nodes/OscillatorAudioNode"
 import OutputAudioNode from "./audio_nodes/OutputAudioNode"
 import ConstantAudioNode from "./audio_nodes/ConstantAudioNode"
 import './App.css'
 import Pallette from './Pallette';
-import AudioContextContext from './AudioContextContext';
+import GainAudioNode from './audio_nodes/GainAudioNode';
 
 const nodeTypes = {
   oscillator: OscillatorFlowNode,
   output: OutputFlowNode,
-  constant: ConstantFlowNode
+  constant: ConstantFlowNode,
+  gain: GainFlowNode
 };
 
 const nodeCreation = {
   oscillator: OscillatorAudioNode,
   output: OutputAudioNode,
-  constant: ConstantAudioNode
+  constant: ConstantAudioNode,
+  gain: GainAudioNode
 }
 
 const audioCtx = new AudioContext();
@@ -80,7 +83,6 @@ const App = () => {
       id: getId(),
       type,
       position,
-      isHidden: false,
       data: { audioNode: nodeCreation[type](audioCtx) },
     };
 
@@ -90,7 +92,6 @@ const App = () => {
   return (
       <div className="App" >
         <ReactFlowProvider>
-          <AudioContextContext.Provider value={audioCtx}>
             <div className="reactflow-wrapper" style={{height: 300}}>
               <ReactFlow 
                 nodeTypes={nodeTypes} 
@@ -106,7 +107,6 @@ const App = () => {
             </div>
             <button onClick={toggleAudioCtxState}>{audioCtxState === "running" ? "Stop" : "Start"}</button>
             <Pallette />
-          </AudioContextContext.Provider>
         </ReactFlowProvider>
       </div>
   );

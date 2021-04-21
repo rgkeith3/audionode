@@ -18,6 +18,9 @@ const Pallette = () => {
       <div className="dndnode constant" onDragStart={(event) => onDragStart(event, 'constant')} draggable>
         Constant Node
       </div>
+      <div className="dndnode gain" onDragStart={(event) => onDragStart(event, "gain")} draggable>
+        Gain Node
+      </div>
     </aside>
   );
 };

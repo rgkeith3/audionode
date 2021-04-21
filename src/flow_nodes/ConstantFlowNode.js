@@ -1,13 +1,11 @@
-import React, {useState, useContext} from 'react';
+import React, {useState} from 'react';
 import { Handle } from 'react-flow-renderer';
-import AudioContextContext from '../AudioContextContext';
 
 const ConstantFlowNode = ({data}) => {
   const [value, setValue] = useState(data.audioNode.offset.value);
-  const audioCtx = useContext(AudioContextContext);
   
   const onChange = ({ target: { value }}) => {
-    data.audioNode.offset.setValueAtTime(value, audioCtx.currentTime);
+    data.audioNode.offset.setValueAtTime(value, data.audioNode.context.currentTime);
     setValue(value);
   }
 
