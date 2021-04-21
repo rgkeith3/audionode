@@ -10,24 +10,15 @@ import ConstantAudioNode from "./audio_nodes/ConstantAudioNode"
 import './App.css'
 import Pallette from './Pallette';
 import GainAudioNode from './audio_nodes/GainAudioNode';
+import AudioNodeLibrary from './AudioNodeLibrary';
+import AudioFlowNode from './flow_nodes/AudioFlowNode';
 
 const nodeTypes = {
-  oscillator: OscillatorFlowNode,
   output: OutputFlowNode,
-  constant: ConstantFlowNode,
-  gain: GainFlowNode
+  oscillator: AudioFlowNode
 };
 
-const nodeCreation = {
-  oscillator: OscillatorAudioNode,
-  output: OutputAudioNode,
-  constant: ConstantAudioNode,
-  gain: GainAudioNode
-}
-
 const audioCtx = new AudioContext();
-
-const initialElements = [];
 
 let id = 0;
 const getId = () => `${id++}`;
@@ -35,7 +26,7 @@ const getId = () => `${id++}`;
 const App = () => {
   const [audioCtxState, setAudioCtxState] = useState(audioCtx.state);
   const [patchInstance, setPatchInstance] = useState(null);
-  const [elements, setElements] = useState(initialElements);
+  const [elements, setElements] = useState([]);
 
   const toggleAudioCtxState = () => {
     if (audioCtxState === "running") {
@@ -83,7 +74,7 @@ const App = () => {
       id: getId(),
       type,
       position,
-      data: { audioNode: nodeCreation[type](audioCtx) },
+      data: AudioNodeLibrary[type](audioCtx),
     };
 
     setElements((es) => es.concat(newNode));
