@@ -13,20 +13,22 @@ const AudioFlowNode = ({data: { label, params, constants, outputs, inputs, audio
 
   return(
     <div>
+      {inputs ? <Handle type="target" position="left" /> : ""}
+      {params.map(param => <Handle type="target" id={param} position="top" />)}
       {label}
       {params.map(param => 
         <input 
           className="nodrag" 
           type="range" 
-          min={audioNode[param].minValue} 
-          max={audioNode[param].maxValue}
+          min="0"
+          max="20000"
           value={state[param]}
           onChange={({target: {value}}) => {
             audioNode[param].setValueAtTime(value, audioNode.context.currentTime);
             setState({...state, [param]: value});
           }}
         />)}
-      <Handle type="source" position="right" />
+      {outputs ? <Handle type="source" position="right" /> : ""}
     </div>
   )
 }

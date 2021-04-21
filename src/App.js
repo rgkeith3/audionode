@@ -14,8 +14,8 @@ import AudioNodeLibrary from './AudioNodeLibrary';
 import AudioFlowNode from './flow_nodes/AudioFlowNode';
 
 const nodeTypes = {
-  output: OutputFlowNode,
-  oscillator: AudioFlowNode
+  custom: AudioFlowNode,
+  output: OutputFlowNode
 };
 
 const audioCtx = new AudioContext();
@@ -40,9 +40,9 @@ const App = () => {
     const { source, target, targetHandle } = params;
     const elements = patchInstance.getElements();
 
-    const sourceNode = elements.find(el => el.id === source).data.audioNode;
+    const sourceNode = elements.find(el => el.id === source).data;
     const targetNode = elements.find(el => el.id === target).data.audioNode;
-    sourceNode.connect(targetHandle ? targetNode[targetHandle] : targetNode);
+    sourceNode.connect(targetNode, targetHandle);
 
     setElements((els) => addEdge(params, els))
   }
@@ -52,9 +52,9 @@ const App = () => {
     const edges = elementsToRemove.filter(el => isEdge(el));
     edges.forEach((params) => {
       const { source, target, targetHandle } = params;
-      const sourceNode = elements.find(el => el.id === source).data.audioNode;
+      const sourceNode = elements.find(el => el.id === source).data;
       const targetNode = elements.find(el => el.id === target).data.audioNode;
-      sourceNode.disconnect(targetHandle ? targetNode[targetHandle] : targetNode);
+      sourceNode.disconnect(targetNode, targetHandle);
     });
 
     setElements((els) => removeElements(elementsToRemove, els));
@@ -72,7 +72,7 @@ const App = () => {
     const position = patchInstance.project({ x: event.clientX, y: event.clientY });
     const newNode = {
       id: getId(),
-      type,
+      type: type == "output" ? type : "custom",
       position,
       data: AudioNodeLibrary[type](audioCtx),
     };
