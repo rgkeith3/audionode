@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 import ReactFlow, { addEdge, ReactFlowProvider, removeElements, Controls, isEdge, Connection, OnLoadParams, Elements, Edge } from 'react-flow-renderer'
-import OutputFlowNode from "./flow_nodes/OutputFlowNode"
 import './App.css'
 import Pallette from './Pallette';
 import AudioNodeLibrary from './AudioNodeLibrary';
 import AudioFlowNode from './flow_nodes/AudioFlowNode';
 
 const nodeTypes = {
-  custom: AudioFlowNode,
-  output: OutputFlowNode
+  custom: AudioFlowNode
 };
 
 const audioCtx = new AudioContext();
@@ -72,7 +70,7 @@ const App = () => {
     const position = patchInstance!.project({ x: event.clientX, y: event.clientY });
     const newNode = {
       id: getId(),
-      type: type === "output" ? type : "custom",
+      type: "custom",
       position,
       data: AudioNodeLibrary[type](audioCtx),
     };

@@ -21,11 +21,11 @@ export class AudioNodeFlowInterface {
     this.outputs = audioNode.numberOfOutputs;
     this.inputs = audioNode.numberOfInputs;
   }
-  connectNode (targetNode: any, targetHandle: string) {
-    this.audioNode.connect(targetHandle ? targetNode[targetHandle] : targetNode)
+  connectNode (targetNode: AudioNodeFlowInterface, targetHandle: string | null) {
+    this.audioNode.connect(targetHandle ? targetNode.audioNode[targetHandle] : targetNode.audioNode)
   };
-  disconnectNode (targetNode: any, targetHandle: string) {
-    this.audioNode.disconnect(targetHandle ? targetNode[targetHandle] : targetNode)
+  disconnectNode (targetNode: AudioNodeFlowInterface, targetHandle: string | null) {
+    this.audioNode.disconnect(targetHandle ? targetNode.audioNode[targetHandle] : targetNode.audioNode)
   };
   label: string;
   audioNode: any;

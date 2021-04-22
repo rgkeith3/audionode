@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { Handle } from 'react-flow-renderer';
 
-const AudioFlowNode = ({data: { label, params, constants, outputs, inputs, audioNode }}) => {
-  // and dynamically create input / output handles for ins and outs as well as for parameters
+const AudioFlowNode = ({ id, data: { label, params, constants, outputs, inputs, audioNode }}) => {
   // handle constants
   // probably want to try to do special handling for frequency sliders (exponential)
   const initialState = {}
@@ -12,13 +11,14 @@ const AudioFlowNode = ({data: { label, params, constants, outputs, inputs, audio
   const [state, setState] = useState(initialState);
 
   return(
-    <div>
+    <div key={id}>
       {inputs ? <Handle type="target" position="left" /> : ""}
-      {params.map(param => <Handle type="target" id={param} position="top" />)}
+      {params.map(param => <Handle type="target" key={param} id={param} position="top" />)}
       {label}
       {params.map(param => 
         <input 
           className="nodrag" 
+          key={param}
           type="range" 
           min="0"
           max="20000"

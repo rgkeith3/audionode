@@ -29,6 +29,15 @@ const AudioNodeLibrary:{ [index: string] : (ctx: AudioContext) => AudioNodeFlowI
       label: "Gain",
       params: ["gain"]
     });
+  },
+  constant: (ctx: AudioContext): AudioNodeFlowInterface => {
+    const node = ctx.createConstantSource();
+    node.start();
+    return new AudioNodeFlowInterface({
+      audioNode: node,
+      label: "Constant",
+      params: ["offset"]
+    })
   }
 }
 
